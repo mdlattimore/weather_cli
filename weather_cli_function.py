@@ -147,7 +147,7 @@ console = Console()
 
 # Set up the CLI
 parser = argparse.ArgumentParser(
-                                description="A command line weather tool. The only required argument is city. See the help information on 'city' for syntax help. Without optional argument '-f', application displays current weather. When the '-f' is included, the application displays an 8 day forecast.",
+                                description="A command line weather tool. The only required argument is city. See the help information on 'city' for syntax help. Without any optional argument, application displays current weather. When the '-f' is included, the application displays an 8 day forecast. When the '--hourly' tag is included, the applicaiton displays a 48 hour hourly forecast.",
                                 epilog="The weather is here, wish you were beautiful. Wait! That's not right."
 )
 parser.add_argument("city",
@@ -156,8 +156,8 @@ parser.add_argument("-f", "--forecast",
                     help="Shows the eight day forecast for the location",
                     action="store_true")
 
-parser.add_argument("-d", "--hourly",
-                    help="Displays hourly forecast for next 48 hours.",
+parser.add_argument("--hourly",
+                    help="Displays hourly forecast for next 48 hours. There is no single letter flag to avoid conflict with 'help' tag.",
                     action="store_true")
                     
 args = parser.parse_args()
@@ -191,7 +191,7 @@ else:
     
 
 # Uncomment only for diagnostic purposes. Displays full results of forecast_api_call in json format
-print(json.dumps(data, indent=4))
+# print(json.dumps(data, indent=4))
 # print(json.dumps(location_data, indent=4))
 
 
