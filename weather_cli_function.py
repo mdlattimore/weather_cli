@@ -53,7 +53,7 @@ def location_api_call(location):
 
 
 def forecast_api_call(lat, lon, app_id):
-    params = {"lat": lat, "lon": lon, "units": "imperial", "exclude": "minutely,hourly", "appid": app_id}
+    params = {"lat": lat, "lon": lon, "units": "imperial", "exclude": "minutely", "appid": app_id}
     url = "https://api.openweathermap.org/data/2.5/onecall"
     response = requests.get(url, params=params)
     data = response.json()
@@ -113,7 +113,7 @@ def display_forecast(data, city, state):
         high_temp = day["temp"]["max"]
         low_temp = day["temp"]["min"]
         humidity = day["humidity"]
-        dew_point = day["humidity"]
+        dew_point = day["dew_point"]
         weather_main = day["weather"][0]["main"]
         weather_description = day["weather"][0]["description"]
         forecast += (f_day) + "\n"
@@ -127,6 +127,9 @@ def display_forecast(data, city, state):
         forecast += f"Weather: {weather_main}, {weather_description}\n\n"
     return forecast
 
+def display_hourly(data, city, state):
+    pass
+
 console = Console()
 
 # Set up the CLI
@@ -139,6 +142,9 @@ parser.add_argument("city",
 parser.add_argument("-f", "--forecast",
                     help="Shows the eight day forecast for the location",
                     action="store_true")
+
+parser.add_argument("-d", "--hourly",
+                    help="Displays hourly forecast for next 48 hours.")
                     
 args = parser.parse_args()
 
