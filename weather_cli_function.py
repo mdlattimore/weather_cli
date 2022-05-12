@@ -128,7 +128,20 @@ def display_forecast(data, city, state):
     return forecast
 
 def display_hourly(data, city, state):
-    pass
+    forecast = f"\n48 Hour Forecast for {city}, {state}\n\n"  # Assemble formatted dispaly into string so we can pass to pydoc.pager()
+    for hour in data["hourly"]:
+        f_day = day_conversion(hour["dt"])  # use f_day ("forecast day") so as not to shadow "day" in for loop.
+        date = date_conversion(hour["dt"])
+        time = time_conversion(hour["dt"])
+        temp = hour["temp"]
+        weather_main = hour["weather"][0]["main"]
+        weather_description = hour["weather"][0]["description"]
+        forecast += (f_day) + "\n"
+        forecast += f"Date: {date}\n"
+        forecast += f"Time: {time}\n"
+        forecast += f"Temp: {temp}\n"
+        forecast += f"Weather: {weather_main}, {weather_description}\n\n"
+    return forecast
 
 console = Console()
 
@@ -144,7 +157,8 @@ parser.add_argument("-f", "--forecast",
                     action="store_true")
 
 parser.add_argument("-d", "--hourly",
-                    help="Displays hourly forecast for next 48 hours.")
+                    help="Displays hourly forecast for next 48 hours.",
+                    action="store_true")
                     
 args = parser.parse_args()
 
@@ -165,6 +179,11 @@ if args.forecast:
     data = forecast_api_call(lat, lon, app_id)
     display = display_forecast(data, city, state)
     pydoc.pager(display)
+elif args.hourly:
+    clear()
+    data = forecast_api_call(lat, lon, app_id)
+    display = display_hourly(data, city, state)
+    pydoc.pager(display)
 else:
     clear()
     data = forecast_api_call(lat, lon, app_id)
@@ -172,7 +191,7 @@ else:
     
 
 # Uncomment only for diagnostic purposes. Displays full results of forecast_api_call in json format
-# print(json.dumps(data, indent=4))
+print(json.dumps(data, indent=4))
 # print(json.dumps(location_data, indent=4))
 
 
