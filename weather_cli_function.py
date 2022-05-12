@@ -1,7 +1,7 @@
 import requests
 import datetime
 import json
-from app_id import app_id
+from key import app_id
 import argparse
 import os
 import pydoc
