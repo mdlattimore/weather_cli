@@ -127,6 +127,7 @@ def display_forecast(data, city, state):
         forecast += f"Weather: {weather_main}, {weather_description}\n\n"
     return forecast
 
+
 def display_hourly(data, city, state):
     forecast = f"\n48 Hour Forecast for {city}, {state}\n\n"  # Assemble formatted dispaly into string so we can pass to pydoc.pager()
     for hour in data["hourly"]:
