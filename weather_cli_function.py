@@ -21,22 +21,35 @@ def clear():
     else:
         os.system("clear")
 
+# datetime.datetime.utcfromtimestamp is deprecated. Replaced below
+# def day_conversion(unix_time):
+#     local_unix_time = unix_time + data["timezone_offset"]
+#     day = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%A')
+#     return day
 
-def day_conversion(unix_time):
-    local_unix_time = unix_time + data["timezone_offset"]
-    day = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%A')
+def day_conversion(timestamp):
+    day = datetime.datetime.fromtimestamp(timestamp).strftime('%A')
     return day
 
 
-def date_conversion(unix_time):
-    local_unix_time = unix_time + data["timezone_offset"]
-    date = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%m-%d-%Y')
+# datetime.datetime.utcfromtimestamp is deprecated. Replaced below
+# def date_conversion(unix_time):
+#     local_unix_time = unix_time + data["timezone_offset"]
+#     date = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%m-%d-%Y')
+#     return date
+
+def date_conversion(timestamp):
+    date = datetime.datetime.fromtimestamp(timestamp).strftime('%m-%d-%Y')
     return date
 
+# datetime.datetime.utcfromtimestamp is deprecated. Replaced below
+# def time_conversion(unix_time):
+#     local_unix_time = unix_time + data["timezone_offset"]
+#     _time = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%I:%M %p')
+#     return _time
 
-def time_conversion(unix_time):
-    local_unix_time = unix_time + data["timezone_offset"]
-    _time = datetime.datetime.utcfromtimestamp(local_unix_time).strftime('%I:%M %p')
+def time_conversion(timestamp):
+    _time = datetime.datetime.fromtimestamp(timestamp).strftime('%I:%M %p')
     return _time
 
 
