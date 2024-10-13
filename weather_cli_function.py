@@ -10,6 +10,7 @@ from rich.console import Console
 from rich import print as rprint
 from rich.text import Text
 from rich.padding import Padding
+import pytz
 
 # TODO Convert current info to pydoc
 # TODO Format custom error messages with textwrap or format using """ """
@@ -28,7 +29,9 @@ def clear():
 #     return day
 
 def day_conversion(timestamp):
-    day = datetime.datetime.fromtimestamp(timestamp).strftime('%A')
+    """API returns times as unix timestamps. This function converts 
+    the timestamp to a human readable day that is timezone aware"""
+    day = datetime.datetime.fromtimestamp(timestamp, tz=pytz.timezone(data['timezone'])).strftime('%A')
     return day
 
 
@@ -39,7 +42,9 @@ def day_conversion(timestamp):
 #     return date
 
 def date_conversion(timestamp):
-    date = datetime.datetime.fromtimestamp(timestamp).strftime('%m-%d-%Y')
+    """API returns times as unix timestamps. This function converts 
+    the timestamp to a human readable date that is timezone aware"""
+    date = datetime.datetime.fromtimestamp(timestamp, tz=pytz.timezone(data['timezone'])).strftime('%m-%d-%Y')
     return date
 
 # datetime.datetime.utcfromtimestamp is deprecated. Replaced below
@@ -49,11 +54,17 @@ def date_conversion(timestamp):
 #     return _time
 
 def time_conversion(timestamp):
-    _time = datetime.datetime.fromtimestamp(timestamp).strftime('%I:%M %p')
+    """API returns times as unix timestamps. This function converts the 
+    timestamp to a human readable time that is timezone aware. Variable _time
+    prepended with _ so as not to shadow time module."""
+    _time = datetime.datetime.fromtimestamp(timestamp, tz=pytz.timezone(data['timezone'])).strftime('%I:%M %p')
     return _time
 
 
 def location_api_call(location):
+    """The forecast api looks up weather data based on lat and long.
+    This function takes city/state/country input and looks up
+    lat and long to feed to the forecast api call."""
     params = {"q": location, "appid": app_id}
     url = "https://api.openweathermap.org/geo/1.0/direct"
     response = requests.get(url, params=params)
@@ -206,7 +217,7 @@ else:
 
 # Uncomment only for diagnostic purposes. Displays full results of forecast_api_call in json format
 # print(json.dumps(data, indent=4))
-# print(json.dumps(location_data, indent=4))
+print(json.dumps(location_data, indent=4))
 
 
 
